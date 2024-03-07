@@ -10,7 +10,7 @@ public class Task {
     }
 
     public double getDuration(){
-        double result=0;
+        double result;
         double tempStart = start_time - (int) start_time;
         double tempFinish = finish_time - (int) finish_time;
         int tempHour = (int)finish_time - (int) start_time ;
@@ -18,6 +18,8 @@ public class Task {
         if(tempMin<0){
             tempMin=0.6+tempMin;
             tempHour--;
+            result = tempMin+tempHour;
+        } else {
             result = tempMin+tempHour;
         }
         return result;
