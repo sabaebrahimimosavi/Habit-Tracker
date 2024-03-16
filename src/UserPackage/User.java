@@ -38,7 +38,7 @@ public class User {
         Scanner scan = new Scanner(System.in);
         System.out.println("Enter task name: ");
         String name = scan.nextLine();
-        return new Task(name);
+        return new Task(name,);
     }
     public String getFullName(){
         return first_name + " " + last_name;
