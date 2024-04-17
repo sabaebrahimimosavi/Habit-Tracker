@@ -3,31 +3,53 @@ import TaskPackage.Task;
 import UtilityPackage.Utils;
 import java.util.Scanner;
 
+
+import static UtilityPackage.Utils.*;
+
 public class User {
     private String username;
     private String password;
     public  String first_name;
     Task[] taskList = new Task[100] ;
-    private int taskCount ;
+    private static int taskCount ;
 
     public  String last_name;
     public  String email;
     public int streak;
+    Scanner scan = new Scanner(System.in);
 
     public User(String username, String password, String first_Name, String last_Name, String email) {
-        this.username=username;
-        this.password=password;
-        this.first_name=first_Name;
-        this.last_name=last_Name;
-        this.email=email;
+        setUsername(username);
+        setPassword(password);
+        setFirst_name(first_Name);
+        setLast_name(last_Name);
         this.taskCount =0 ;
+        while (!isEmailValid(email)){
+            email=scan.next();
+        }
+        this.email=email;
+    }
+
+    public void setLast_name(String last_name) {
+        last_name=last_name.substring(0,1).toUpperCase()+last_name.substring(1).toLowerCase();
+        this.last_name = last_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        first_name=first_name.substring(0,1).toUpperCase()+first_name.substring(1).toLowerCase();
+        this.first_name =first_name;
     }
 
     public void setUsername(String username){
         this.username = username;
     }
     public void setPassword(String password){
-        if(Utils.isPasswordValid(password)) this.password = password;
+        while (!Utils.isPasswordValid(password)){
+            System.out.println("YOUR PASSWORD IS INVALID !!! AT LEAST USE ONE LETTER AND ONE NUMBER .");
+            System.out.println("Enter valid password:");
+            password = scan.next();
+        }
+        this.password = password;
     }
     public String getUsername(){
         return username;
@@ -46,7 +68,6 @@ public class User {
         return false;
     }
     public Task createTask(String name) {
-        Scanner scan = new Scanner(System.in);
         while (isTaskRepetitive(name)) {
             System.out.println("Creation failed : Task with this name already exists !!!");
             System.out.println("Choose diffrent name:");
@@ -65,8 +86,33 @@ public class User {
 
     }
     public String getFullName(){
-
-        return first_name + " " + last_name;
+        return first_name.concat(" "+last_name);
+    }
+    public Task getTaskByName(String taskName){
+        for(int i=0 ; i<taskCount; i++){
+            if (taskList[i].getName().equals(taskName)){
+                return taskList[i];
+            }
+        }
+        System.out.println("Error: Task not found with this name ' " + taskName + " '");
+        return null;
+    }
+    public Task[] getTaskByColor(String color) {
+        Task[] tasksWithColor = new Task[taskCount];
+        int count = 0;
+        for (int i = 0; i < taskCount; i++) {
+            if (taskList[i].getColor().equals(color)) {
+                tasksWithColor[count] = taskList[i];
+                count++;
+            }
+        }
+        if (count == 0) {
+            System.out.println("No tasks found with the color '" + color + "'.");
+            return null;
+        }
+        Task[] result = new Task[count];
+        System.arraycopy(tasksWithColor, 0, result, 0, count);
+        return result;
     }
 
 }

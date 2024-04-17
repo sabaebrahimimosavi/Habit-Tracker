@@ -13,11 +13,6 @@ public class Main {
         String username = scan.next();
         System.out.println("Enter your password: ");
         String password = scan.next();
-        while (!(Utils.isPasswordValid(password))) {
-            System.out.println("YOUR PASSWORD IS INVALID !!! AT LEAST USE ONE LETTER AND ONE NUMBER .");
-            System.out.println("Enter valid password:");
-            password = scan.next();
-        }
         System.out.println("Enter your full name: ");
         String first_name = scan.next();
         String last_name = scan.next();
@@ -60,6 +55,51 @@ public class Main {
                 }
             }else break;
         } while (opt == 'y');
+        // Searching for specific task
+        do {
+            System.out.println("Would you like to search for specific task? (y/n)");
+            char answer = scan.next().charAt(0);
+            while (answer!='n' && answer!='y'){
+                System.out.println("Invalid entry!\nAnswer again:");
+                answer = scan.next().charAt(0);
+            }
+            if (answer == 'y') {
+                System.out.println("Do you like to search by color(c) or name(n)?(c/n)");
+                answer = scan.next().charAt(0);
+                while (answer!='n' && answer!='c'){
+                    System.out.println("Invalid entry!\nAnswer again:");
+                    answer = scan.next().charAt(0);
+                }
+                String input;
+                if(answer=='n'){
+                    System.out.println("Enter task's name:");
+                    input = scan.next();
+                    Task taskFind = user.getTaskByName(input);
+                    if(taskFind!=null){
+                        taskFind.taskInfoPrint();
+                    }
+                } else if (answer=='c') {
+                    System.out.println("Enter task's color:");
+                    input = scan.next();
+                    while (!Task.isColorValid(input)){
+                        input = scan.next();
+                    }
+                    Task[] taskFind = user.getTaskByColor(input);
+                    if(taskFind!=null){
+                        for(Task tasks : taskFind){
+                            tasks.taskInfoPrint();
+                        }
+                    }
+                }
+
+                System.out.println("Do you want to continue searching?(y/n) ");
+                opt = Character.toLowerCase(scan.next().charAt(0));
+                while (opt!='n' && opt!='y'){
+                    System.out.println("Invalid entry!\nAnswer again:");
+                    opt = scan.next().charAt(0);
+                }
+            } else break;
+        }while (opt == 'y');
         // Changing username and password with setter methods
         do {
             System.out.println("Would you like to change your username and password? (y/n)");

@@ -1,5 +1,7 @@
 package UtilityPackage;
 
+import java.util.Scanner;
+import java.util.regex.*;
 public class Utils {
     public static boolean isPasswordValid(String password) {
         boolean lettreCheck = false;
@@ -15,5 +17,15 @@ public class Utils {
         if(lettreCheck && didgitcheck)
             return true;
         else return false;
+    }
+
+    public static boolean isEmailValid(String email){
+        String pattern = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.com$";
+        Pattern regex = Pattern.compile(pattern);
+        Matcher matcher = regex.matcher(email);
+        if (!matcher.matches()){
+            System.out.println("Invalid email try again:");
+        }
+        return matcher.matches();
     }
 }
